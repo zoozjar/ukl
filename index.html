@@ -3,343 +3,299 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Knowledge Universe</title>
-
+<title>Knowledge Univeral Link</title>
 <style>
-    /* --- Theme Variables --- */
-    :root {
-        --primary: #0ea5e9;
-        --accent: #8b5cf6;
-        --bg-dark: #0f172a;
-        --bg-card: #1e293b;
-        --text-main: #f1f5f9;
-        --text-muted: #94a3b8;
-        --border: rgba(255,255,255,0.1);
-        --hover-bg: rgba(255,255,255,0.05);
+    /* --- Design Variables --- */
+    :root { 
+        --primary: #0ea5e9; 
+        --bg: #0f172a; 
+        --card: #1e293b; 
+        --text: #f1f5f9; 
+        --muted: #94a3b8; 
     }
-
+    
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    body {
-        font-family: "Segoe UI", Inter, sans-serif;
-        background: var(--bg-dark);
-        color: var(--text-main);
-        padding: 15px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+    body { 
+        font-family: "Segoe UI", sans-serif; 
+        background: var(--bg); 
+        color: var(--text); 
+        padding: 20px; 
+        display: flex; 
+        flex-direction: column; 
+        align-items: center; 
         min-height: 100vh;
     }
-
-    h1 {
-        background: linear-gradient(to right, var(--primary), var(--accent));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        margin-bottom: 20px;
-        font-weight: 800;
+    
+    h1 { 
+        background: linear-gradient(to right, var(--primary), #8b5cf6); 
+        -webkit-background-clip: text; 
+        -webkit-text-fill-color: transparent; 
+        margin-bottom: 25px; 
+        font-weight: 800; 
         font-size: 1.8rem;
-        text-align: center;
+        text-align: center; 
     }
 
-    /* --- Loading Spinner --- */
-    #loading {
-        margin-top: 50px;
-        font-size: 1.2rem;
-        color: var(--primary);
-        display: none;
-        text-align: center;
+    /* Tabs Container */
+    .tabs { 
+        display: flex; 
+        gap: 8px; 
+        margin-bottom: 25px; 
+        flex-wrap: wrap; 
+        justify-content: center; 
     }
-
-    /* --- Tab Navigation --- */
-    .main-tabs {
-        display: flex;
-        gap: 8px;
-        margin-bottom: 20px;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    .main-tab-btn {
-        background: rgba(255,255,255,0.05);
-        border: 1px solid var(--border);
-        color: var(--text-muted);
-        padding: 8px 18px;
-        border-radius: 20px;
-        cursor: pointer;
-        transition: 0.2s;
-        font-size: 0.95rem;
+    
+    .btn { 
+        background: rgba(255,255,255,0.05); 
+        border: 1px solid rgba(255,255,255,0.1); 
+        color: var(--muted); 
+        padding: 8px 20px; 
+        border-radius: 20px; 
+        cursor: pointer; 
+        transition: 0.2s; 
         font-weight: 600;
+        font-size: 0.9rem;
+    }
+    
+    .btn:hover, .btn.active { 
+        background: var(--primary); 
+        color: white; 
+        border-color: var(--primary); 
+        transform: translateY(-1px);
     }
 
-    .main-tab-btn:hover, .main-tab-btn.active {
-        background: var(--primary);
-        color: white;
-        border-color: var(--primary);
-    }
-
-    /* --- Sub-Tabs --- */
-    .sub-tabs {
-        display: flex;
-        gap: 6px;
-        margin-bottom: 15px;
-        background: rgba(0,0,0,0.3);
-        padding: 6px;
-        border-radius: 10px;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    .sub-tab-btn {
-        background: transparent;
-        border: none;
-        color: var(--text-muted);
-        padding: 6px 14px;
-        border-radius: 6px;
-        cursor: pointer;
-        font-size: 0.85rem;
-        transition: 0.2s;
-    }
-
-    .sub-tab-btn.active {
-        background: var(--bg-card);
-        color: var(--text-main);
-        box-shadow: 0 1px 3px rgba(0,0,0,0.3);
-    }
-
-    /* --- Content Area --- */
+    /* Content Area */
     #content-area { width: 100%; max-width: 800px; }
-
-    details {
-        background: var(--bg-card);
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        margin-bottom: 12px;
-        overflow: hidden;
+    
+    details { 
+        background: var(--card); 
+        border: 1px solid rgba(255,255,255,0.1); 
+        border-radius: 12px; 
+        margin-bottom: 12px; 
+        overflow: hidden; 
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     }
-
-    summary {
-        padding: 12px 16px;
-        cursor: pointer;
-        font-weight: 700;
+    
+    summary { 
+        padding: 16px; 
+        cursor: pointer; 
+        font-weight: bold; 
         font-size: 1rem;
+        background: rgba(255,255,255,0.02); 
+        display: flex; 
+        justify-content: space-between; 
+        align-items: center; 
+        list-style: none; 
         color: var(--primary);
-        background: rgba(255,255,255,0.02);
-        list-style: none; /* Hide default triangle */
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
     }
     
-    summary:hover { background: var(--hover-bg); }
-    
-    /* Custom Indicator for Summary */
-    summary::after {
-        content: '+'; 
-        font-size: 1.2rem;
-        font-weight: bold;
-    }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: '+'; font-size: 1.2rem; font-weight: bold; }
     details[open] summary::after { content: '-'; }
-    details[open] summary { border-bottom: 1px solid var(--border); }
+    details[open] summary { border-bottom: 1px solid rgba(255,255,255,0.1); }
 
-    /* --- List View (Not Grid) --- */
-    .link-list {
-        display: flex;
-        flex-direction: column; /* Stack vertically */
+    /* Link Items */
+    .link-list { display: flex; flex-direction: column; }
+    
+    .link-item { 
+        display: flex; 
+        align-items: flex-start; 
+        gap: 15px; 
+        padding: 16px; 
+        border-bottom: 1px solid rgba(255,255,255,0.05); 
+        text-decoration: none; 
+        color: inherit; 
+        transition: background 0.2s; 
     }
-
-    .link-item {
-        display: flex;
-        align-items: flex-start; /* Align icon to top */
-        gap: 15px;
-        text-decoration: none;
-        padding: 12px 16px;
-        border-bottom: 1px solid rgba(255,255,255,0.05);
-        transition: background 0.2s;
-    }
-
+    
+    .link-item:hover { background: rgba(255,255,255,0.05); }
     .link-item:last-child { border-bottom: none; }
-
-    .link-item:hover {
-        background: var(--hover-bg);
+    
+    .link-icon { 
+        width: 32px; 
+        height: 32px; 
+        border-radius: 6px; 
+        margin-top: 2px; 
+        background: #fff; /* White bg for transparent icons */
+        object-fit: contain;
+        padding: 2px;
     }
-
-    .link-icon {
-        width: 24px;
-        height: 24px;
-        border-radius: 4px;
-        flex-shrink: 0;
-        margin-top: 2px; /* Slight adjust */
-    }
-
-    .link-info {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-        width: 100%;
-    }
-
-    .link-title {
-        font-size: 0.95rem;
-        font-weight: 500;
-        color: var(--text-main);
-        /* Allow wrapping */
-        white-space: normal; 
+    
+    .link-info { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+    
+    .link-title { 
+        font-size: 1rem; 
+        font-weight: 500; 
+        color: var(--text); 
         line-height: 1.4;
     }
-
-    .link-url {
-        font-size: 0.8rem;
-        color: #64748b;
-        /* Allow URL breaking */
+    
+    .link-url { 
+        font-size: 0.8rem; 
+        color: var(--muted); 
         word-break: break-all; 
         line-height: 1.3;
     }
 
-    .footer { 
-        margin-top: auto; 
-        font-size: 11px; 
-        color: gray; 
-        padding-top: 20px; 
-        text-align: center;
-    }
+    /* Loading & Error */
+    #loading { margin-top: 50px; color: var(--primary); font-weight: bold; font-size: 1.1rem; text-align: center;}
+    .error { color: #ef4444; text-align: center; margin-top: 20px; padding: 20px; border: 1px solid #ef4444; border-radius: 8px; background: rgba(239, 68, 68, 0.1); max-width: 600px;}
+
+    .footer { margin-top: auto; padding-top: 40px; color: #64748b; font-size: 0.8rem; text-align: center; }
 </style>
 </head>
 <body>
 
-    <h1>🌌 Knowledge List</h1>
-    
-    <div id="loading">Loading Data...</div>
+    <h1>📚 Knowledge Univeral Link</h1>
+    <div id="loading">Connecting to Google Sheet...</div>
+    <div id="error-msg" class="error" style="display:none;"></div>
 
-    <div class="main-tabs" id="main-tabs"></div>
-
-    <div id="sub-tabs-container" style="display:none;">
-        <div class="sub-tabs" id="sub-tabs"></div>
-    </div>
-
+    <div class="tabs" id="main-tabs"></div>
     <div id="content-area"></div>
 
-    <div class="footer">List Mode • Full Text Visible • Live Gist Data</div>
+    <div class="footer">Live Data from Google Sheets</div>
 
     <script>
-        // အစ်ကို့ရဲ့ Gist URL
-        const GIST_URL = "https://gist.githubusercontent.com/zoozjar/2692d67679108f0a3c14331926c49bb1/raw/data.json";
+        // ==========================================
+        // 👇 အစ်ကိုပေးတဲ့ Link ကို ဒီမှာ ထည့်ထားပါတယ် 👇
+        // ==========================================
         
+        const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTzZiVeEVnkYTU4TR2QQxNxOL6R-xEgrAloqMrJ0VtAuaXzu30qMLodfO33vON0r6gxIQ1CSpzUb5PB/pub?output=csv";
+        
+        // ==========================================
+
         let data = {};
 
-        const mainTabsContainer = document.getElementById('main-tabs');
-        const subTabsContainer = document.getElementById('sub-tabs');
-        const subTabsWrapper = document.getElementById('sub-tabs-container');
-        const contentArea = document.getElementById('content-area');
-        const loadingDiv = document.getElementById('loading');
-        let currentMain = "";
-
-        async function loadData() {
+        async function init() {
             try {
-                loadingDiv.style.display = 'block';
-                // Cache bust logic
-                const response = await fetch(GIST_URL + '?t=' + new Date().getTime());
-                if (!response.ok) throw new Error(`Status: ${response.status}`);
-                data = await response.json();
-                loadingDiv.style.display = 'none';
-                init();
-            } catch (error) {
-                console.error(error);
-                loadingDiv.innerHTML = `<span style="color:red">Error: ${error.message}</span>`;
+                // Fetch CSV Data
+                const res = await fetch(CSV_URL);
+                if(!res.ok) throw new Error("Google Sheet link not working (Check Internet or URL)");
+                
+                const text = await res.text();
+                
+                // HTML ပြန်လာရင် Link မှားနေလို့ (Published as Webpage ဖြစ်နေလို့)
+                if(text.includes("<!DOCTYPE html>")) {
+                    throw new Error("Sheet Link မှားနေပါသည်။ 'Publish to web' လုပ်ချိန်တွင် 'CSV' ကို မရွေးချယ်ခဲ့ပုံရသည်။");
+                }
+
+                parseCSV(text);
+                
+                document.getElementById('loading').style.display = 'none';
+                renderMainTabs();
+
+            } catch (e) {
+                showError(e.message);
             }
         }
 
-        function init() {
-            if (Object.keys(data).length === 0) return;
+        function parseCSV(csvText) {
+            const rows = csvText.split('\n');
+            
+            // Header (Row 1) ကို ကျော်ပြီး Row 2 က စဖတ်မယ်
+            for(let i=1; i<rows.length; i++) {
+                // CSV line parser (Handles quotes properly)
+                const row = rows[i].trim();
+                if(!row) continue;
 
-            Object.keys(data).forEach((cat, index) => {
+                // Simple split by comma (assuming no commas in names for simplicity)
+                // For better robustness with commas in titles, use Regex split:
+                const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.replace(/^"|"$/g, '').trim());
+                
+                // Column Order Mapping:
+                // Col 0: Main
+                // Col 1: Sub
+                // Col 2: Name
+                // Col 3: Url
+                const main = cols[0];
+                const sub = cols[1];
+                const name = cols[2];
+                const url = cols[3];
+
+                // Data အပြည့်အစုံမပါရင် ကျော်မယ်
+                if(!main || !url) continue;
+
+                if(!data[main]) data[main] = {};
+                if(!data[main][sub]) data[main][sub] = [];
+
+                data[main][sub].push({ name, url });
+            }
+        }
+
+        function renderMainTabs() {
+            const container = document.getElementById('main-tabs');
+            const keys = Object.keys(data);
+            
+            if(keys.length === 0) {
+                showError("Google Sheet ထဲတွင် Data မတွေ့ပါ။ (Main, Sub, Name, Url ခေါင်းစဉ်များ ထည့်ထားပါသလား?)");
+                return;
+            }
+
+            keys.forEach((cat, idx) => {
                 const btn = document.createElement('button');
-                btn.className = 'main-tab-btn';
+                btn.className = 'btn';
                 btn.innerText = cat;
-                btn.onclick = () => setMainTab(cat, btn);
-                if(index === 0) setTimeout(() => btn.click(), 50);
-                mainTabsContainer.appendChild(btn);
+                btn.onclick = () => {
+                    document.querySelectorAll('.btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    renderContent(cat);
+                };
+                container.appendChild(btn);
+                if(idx===0) btn.click();
             });
         }
 
-        function setMainTab(catName, btn) {
-            currentMain = catName;
-            document.querySelectorAll('.main-tab-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            renderSubTabs(catName);
-        }
-
-        function renderSubTabs(catName) {
-            subTabsContainer.innerHTML = '';
-            if (!data[catName]) return;
-
-            const subTypes = Object.keys(data[catName]);
+        function renderContent(main) {
+            const container = document.getElementById('content-area');
+            container.innerHTML = '';
             
-            if(subTypes.length > 0) {
-                subTabsWrapper.style.display = 'flex';
-                subTypes.forEach((type, index) => {
-                    const sBtn = document.createElement('button');
-                    sBtn.className = 'sub-tab-btn';
-                    sBtn.innerText = type;
-                    sBtn.onclick = () => setSubTab(type, sBtn);
-                    if(index === 0) setTimeout(() => sBtn.click(), 10);
-                    subTabsContainer.appendChild(sBtn);
-                });
-            } else {
-                subTabsWrapper.style.display = 'none';
-                contentArea.innerHTML = '<p style="text-align:center; color:gray;">No data.</p>';
-            }
-        }
-
-        function setSubTab(typeName, btn) {
-            document.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            renderContent(currentMain, typeName);
-        }
-
-        function renderContent(mainCat, subType) {
-            contentArea.innerHTML = '';
-            if (!data[mainCat] || !data[mainCat][subType]) return;
-
-            const topics = data[mainCat][subType];
-
-            for (const [topicName, links] of Object.entries(topics)) {
+            const subCats = data[main];
+            Object.keys(subCats).forEach(sub => {
                 const details = document.createElement('details');
-                details.open = true;
-
+                details.open = true; // Default open
+                
                 const summary = document.createElement('summary');
-                summary.innerText = topicName;
+                summary.innerText = sub;
                 details.appendChild(summary);
 
-                // Grid မသုံးတော့ဘဲ Flex List သုံးပါမယ်
-                const listContainer = document.createElement('div');
-                listContainer.className = 'link-list';
+                const list = document.createElement('div');
+                list.className = 'link-list';
 
-                links.forEach(link => {
-                    const domain = new URL(link.url).hostname;
-                    const iconUrl = `https://www.google.com/s2/favicons?domain=${domain}&sz=32`;
-
+                subCats[sub].forEach(link => {
+                    // Auto Icon Fetcher
+                    let domain = "";
+                    try { domain = new URL(link.url).hostname; } catch(e){ domain = "google.com"; }
+                    const icon = `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
+                    
                     const a = document.createElement('a');
-                    a.className = 'link-item'; // Class name ပြောင်းထားပါတယ်
+                    a.className = 'link-item';
                     a.href = link.url;
                     a.target = "_blank";
-                    
-                    // HTML Structure ပြောင်းပြီး စာကြောင်းခေါက်အောင် လုပ်ထားပါတယ်
                     a.innerHTML = `
-                        <img src="${iconUrl}" class="link-icon" alt="icon" onerror="this.src='https://via.placeholder.com/20'">
+                        <img src="${icon}" class="link-icon" onerror="this.src='https://via.placeholder.com/32'">
                         <div class="link-info">
                             <span class="link-title">${link.name}</span>
                             <span class="link-url">${link.url}</span>
                         </div>
                     `;
-                    listContainer.appendChild(a);
+                    list.appendChild(a);
                 });
 
-                details.appendChild(listContainer);
-                contentArea.appendChild(details);
-            }
+                details.appendChild(list);
+                container.appendChild(details);
+            });
         }
 
-        loadData();
+        function showError(msg) {
+            document.getElementById('loading').style.display = 'none';
+            const errDiv = document.getElementById('error-msg');
+            errDiv.style.display = 'block';
+            errDiv.innerText = "❌ Error: " + msg;
+        }
+
+        // Start
+        init();
     </script>
 </body>
 </html>
