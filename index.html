@@ -15,6 +15,7 @@
         --text-main: #f1f5f9;
         --text-muted: #94a3b8;
         --border: rgba(255,255,255,0.1);
+        --hover-bg: rgba(255,255,255,0.05);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -37,6 +38,7 @@
         margin-bottom: 20px;
         font-weight: 800;
         font-size: 1.8rem;
+        text-align: center;
     }
 
     /* --- Loading Spinner --- */
@@ -45,6 +47,7 @@
         font-size: 1.2rem;
         color: var(--primary);
         display: none;
+        text-align: center;
     }
 
     /* --- Tab Navigation --- */
@@ -60,11 +63,11 @@
         background: rgba(255,255,255,0.05);
         border: 1px solid var(--border);
         color: var(--text-muted);
-        padding: 6px 16px;
-        border-radius: 18px;
+        padding: 8px 18px;
+        border-radius: 20px;
         cursor: pointer;
         transition: 0.2s;
-        font-size: 0.9rem;
+        font-size: 0.95rem;
         font-weight: 600;
     }
 
@@ -77,21 +80,23 @@
     /* --- Sub-Tabs --- */
     .sub-tabs {
         display: flex;
-        gap: 4px;
+        gap: 6px;
         margin-bottom: 15px;
         background: rgba(0,0,0,0.3);
-        padding: 4px;
-        border-radius: 8px;
+        padding: 6px;
+        border-radius: 10px;
+        flex-wrap: wrap;
+        justify-content: center;
     }
 
     .sub-tab-btn {
         background: transparent;
         border: none;
         color: var(--text-muted);
-        padding: 4px 12px;
+        padding: 6px 14px;
         border-radius: 6px;
         cursor: pointer;
-        font-size: 0.8rem;
+        font-size: 0.85rem;
         transition: 0.2s;
     }
 
@@ -101,54 +106,61 @@
         box-shadow: 0 1px 3px rgba(0,0,0,0.3);
     }
 
-    /* --- Content & Grid --- */
-    #content-area { width: 100%; max-width: 950px; }
+    /* --- Content Area --- */
+    #content-area { width: 100%; max-width: 800px; }
 
     details {
         background: var(--bg-card);
         border: 1px solid var(--border);
-        border-radius: 8px;
-        margin-bottom: 8px;
+        border-radius: 10px;
+        margin-bottom: 12px;
         overflow: hidden;
     }
 
     summary {
-        padding: 8px 12px;
+        padding: 12px 16px;
         cursor: pointer;
-        font-weight: 600;
-        font-size: 0.95rem;
+        font-weight: 700;
+        font-size: 1rem;
+        color: var(--primary);
+        background: rgba(255,255,255,0.02);
+        list-style: none; /* Hide default triangle */
         display: flex;
         justify-content: space-between;
-        list-style: none;
-        background: rgba(255,255,255,0.02);
+        align-items: center;
     }
     
-    summary:hover { background: rgba(255,255,255,0.05); }
+    summary:hover { background: var(--hover-bg); }
+    
+    /* Custom Indicator for Summary */
+    summary::after {
+        content: '+'; 
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+    details[open] summary::after { content: '-'; }
     details[open] summary { border-bottom: 1px solid var(--border); }
 
-    /* --- Compact Link Cards --- */
-    .link-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-        gap: 8px;
-        padding: 10px;
-    }
-
-    .link-card {
+    /* --- List View (Not Grid) --- */
+    .link-list {
         display: flex;
-        align-items: center;
-        gap: 10px;
-        text-decoration: none;
-        background: rgba(0,0,0,0.2);
-        padding: 6px 8px;
-        border-radius: 5px;
-        border: 1px solid transparent;
-        transition: 0.2s;
+        flex-direction: column; /* Stack vertically */
     }
 
-    .link-card:hover {
-        background: rgba(255,255,255,0.08);
-        border-color: var(--primary);
+    .link-item {
+        display: flex;
+        align-items: flex-start; /* Align icon to top */
+        gap: 15px;
+        text-decoration: none;
+        padding: 12px 16px;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+        transition: background 0.2s;
+    }
+
+    .link-item:last-child { border-bottom: none; }
+
+    .link-item:hover {
+        background: var(--hover-bg);
     }
 
     .link-icon {
@@ -156,40 +168,47 @@
         height: 24px;
         border-radius: 4px;
         flex-shrink: 0;
+        margin-top: 2px; /* Slight adjust */
     }
 
     .link-info {
         display: flex;
         flex-direction: column;
-        overflow: hidden;
+        gap: 4px;
+        width: 100%;
     }
 
     .link-title {
-        font-size: 0.8rem;
+        font-size: 0.95rem;
         font-weight: 500;
         color: var(--text-main);
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        /* Allow wrapping */
+        white-space: normal; 
+        line-height: 1.4;
     }
 
     .link-url {
-        font-size: 0.65rem;
+        font-size: 0.8rem;
         color: #64748b;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        margin-top: 1px;
+        /* Allow URL breaking */
+        word-break: break-all; 
+        line-height: 1.3;
     }
 
-    .footer { margin-top: auto; font-size: 11px; color: gray; padding-top: 20px; }
+    .footer { 
+        margin-top: auto; 
+        font-size: 11px; 
+        color: gray; 
+        padding-top: 20px; 
+        text-align: center;
+    }
 </style>
 </head>
 <body>
 
-    <h1>🌌 Knowledge Board</h1>
+    <h1>🌌 Knowledge List</h1>
     
-    <div id="loading">Loading Data from Gist...</div>
+    <div id="loading">Loading Data...</div>
 
     <div class="main-tabs" id="main-tabs"></div>
 
@@ -199,13 +218,12 @@
 
     <div id="content-area"></div>
 
-    <div class="footer">Compact Mode • Auto Icons • Live Data from Gist</div>
+    <div class="footer">List Mode • Full Text Visible • Live Gist Data</div>
 
     <script>
-        // အစ်ကို့ရဲ့ Gist Raw Link အမှန်ကို ဒီမှာ ထည့်ထားပါတယ်
+        // အစ်ကို့ရဲ့ Gist URL
         const GIST_URL = "https://gist.githubusercontent.com/zoozjar/2692d67679108f0a3c14331926c49bb1/raw/data.json";
         
-        // Data သိမ်းမည့် Variable
         let data = {};
 
         const mainTabsContainer = document.getElementById('main-tabs');
@@ -215,31 +233,22 @@
         const loadingDiv = document.getElementById('loading');
         let currentMain = "";
 
-        // Gist မှ Data ကို လှမ်းဆွဲမည့် Function
         async function loadData() {
             try {
-                loadingDiv.style.display = 'block'; // Show Loading
-                
-                // Cache မဖြစ်အောင် timestamp လေးထည့်ပြီး ခေါ်ပါမယ်
+                loadingDiv.style.display = 'block';
+                // Cache bust logic
                 const response = await fetch(GIST_URL + '?t=' + new Date().getTime());
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
+                if (!response.ok) throw new Error(`Status: ${response.status}`);
                 data = await response.json();
-                
-                loadingDiv.style.display = 'none'; // Hide Loading
-                init(); // Data ရပြီဆိုမှ UI စဆောက်မယ်
-
+                loadingDiv.style.display = 'none';
+                init();
             } catch (error) {
-                console.error("Error fetching data:", error);
-                loadingDiv.innerHTML = `<span style="color:red">Error loading data: ${error.message}</span>`;
+                console.error(error);
+                loadingDiv.innerHTML = `<span style="color:red">Error: ${error.message}</span>`;
             }
         }
 
         function init() {
-            // Data မရှိရင် ဘာမှဆက်မလုပ်ဘူး
             if (Object.keys(data).length === 0) return;
 
             Object.keys(data).forEach((cat, index) => {
@@ -261,14 +270,12 @@
 
         function renderSubTabs(catName) {
             subTabsContainer.innerHTML = '';
-            // Data structure မှားနေရင် error မတက်အောင် စစ်မယ်
             if (!data[catName]) return;
 
             const subTypes = Object.keys(data[catName]);
             
             if(subTypes.length > 0) {
                 subTabsWrapper.style.display = 'flex';
-                subTabsWrapper.style.justifyContent = 'center';
                 subTypes.forEach((type, index) => {
                     const sBtn = document.createElement('button');
                     sBtn.className = 'sub-tab-btn';
@@ -303,17 +310,20 @@
                 summary.innerText = topicName;
                 details.appendChild(summary);
 
-                const grid = document.createElement('div');
-                grid.className = 'link-grid';
+                // Grid မသုံးတော့ဘဲ Flex List သုံးပါမယ်
+                const listContainer = document.createElement('div');
+                listContainer.className = 'link-list';
 
                 links.forEach(link => {
                     const domain = new URL(link.url).hostname;
                     const iconUrl = `https://www.google.com/s2/favicons?domain=${domain}&sz=32`;
 
                     const a = document.createElement('a');
-                    a.className = 'link-card';
+                    a.className = 'link-item'; // Class name ပြောင်းထားပါတယ်
                     a.href = link.url;
                     a.target = "_blank";
+                    
+                    // HTML Structure ပြောင်းပြီး စာကြောင်းခေါက်အောင် လုပ်ထားပါတယ်
                     a.innerHTML = `
                         <img src="${iconUrl}" class="link-icon" alt="icon" onerror="this.src='https://via.placeholder.com/20'">
                         <div class="link-info">
@@ -321,15 +331,14 @@
                             <span class="link-url">${link.url}</span>
                         </div>
                     `;
-                    grid.appendChild(a);
+                    listContainer.appendChild(a);
                 });
 
-                details.appendChild(grid);
+                details.appendChild(listContainer);
                 contentArea.appendChild(details);
             }
         }
 
-        // Start fetching data
         loadData();
     </script>
 </body>
